@@ -15,3 +15,44 @@ function trebuchet(x){
 }
 
 trebuchet(lines)
+
+
+
+const numberWordsRegExp = new RegExp(
+    ['one','two','three','four','five','six','seven','eight','nine'].join('|'), 'g'
+);
+
+const numberWords = ['one','two','three','four','five','six','seven','eight','nine']
+
+function calibrate(x){
+    for(var i=0;i<x.length;i++){
+        var nums = x[i].toString().match(numberWordsRegExp)
+        if(nums!=null){
+            for(var g=0;g<nums.length;g++){
+                var numeral = numberWords.indexOf(nums[g])+1
+                if(g===0){
+                    var position = x[i].toString().indexOf(nums[g])
+                    x[i] = x[i].slice(0, position) + numeral + x[i].slice(position)
+                }else if(g===nums.length-1){
+                    var position = x[i].toString().indexOf(nums[g])
+                    x[i] = x[i].slice(0, position) + numeral + x[i].slice(position)
+                }
+            }
+        } 
+    }
+    return x
+}
+
+
+
+var ex = calibrate(tester)
+
+console.log(ex)
+
+trebuchet(ex)
+
+//works for example but not for input? my guess is there is something like this happening:
+//input line: onetwone
+//output line 1one2twone
+//the regex search is missing the last 'one' because it has an overlap with the preceding 'two'
+// if this is the case, it may require some troubleshooting with regexs
